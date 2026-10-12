@@ -1,0 +1,4 @@
+# 임시 및 테스트 파일
+*.png
+*.log
+.playwright-mcp/

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>초등 5학년 사회 퀴즈 | 조선 시대의 문화</title>
+  
+  <!-- 파비콘 (조선 왕실 테마 전통 모티브 SVG) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📜</text></svg>">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-font-size="large">
+
+  <!-- Confetti 축하 꽃가루 캔버스 -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="app-container">
+    
+    <!-- 1. 상단 유틸리티 헤더 바 -->
+    <header class="top-header" role="banner">
+      <div class="brand-badge">
+        <span>🏛️</span>
+        <span>초등 5학년 사회</span>
+        <span class="badge-tag">조선 시대 문화</span>
+      </div>
+
+      <div class="header-controls">
+        <!-- 글자 크기 조절 (교실 TV 및 시력 배려) -->
+        <div class="font-size-toggle" title="글자 크기 조절">
+          <button type="button" class="font-btn" data-size="normal">보통</button>
+          <button type="button" class="font-btn active" data-size="large">크게</button>
+          <button type="button" class="font-btn" data-size="xlarge">TV모드</button>
+        </div>
+
+        <!-- 소리 켜기/끄기 토글 -->
+        <button type="button" class="control-btn" id="sound-toggle-btn" title="효과음 켜기/끄기">
+          <span>🔊</span>
+          <span>소리 켬</span>
+        </button>
+
+        <!-- 전체화면 (교실 TV / 칠판용) -->
+        <button type="button" class="control-btn" id="fullscreen-btn" title="전체화면 전환">
+          <span>⛶</span>
+          <span>전체화면</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 2. 진행 상태 및 실시간 점수 바 -->
+    <section class="quiz-status-bar" aria-label="진행 상태">
+      <div class="status-row">
+        <div class="question-counter">
+          <span>문제</span>
+          <span class="curr-num" id="curr-num">1</span>
+          <span>/</span>
+          <span id="total-num">10</span>
+        </div>
+        <div class="score-display">
+          <span>⭐ 현재 점수:</span>
+          <strong id="live-score">0점</strong>
+        </div>
+      </div>
+
+      <!-- 10개 문제 진행 도트 -->
+      <div class="progress-dots" id="progress-dots" aria-hidden="true">
+        <!-- JS로 10개 dot 생성 -->
+      </div>
+    </section>
+
+    <!-- 3. 메인 문제 풀이 카드 -->
+    <main class="quiz-card" id="quiz-card" role="main">
+      <div class="question-header">
+        <div class="category-tag" id="category-tag">
+          <span>📜</span>
+          <span>문화유산</span>
+        </div>
+        <h1 class="question-text" id="question-text">
+          문제를 불러오는 중입니다...
+        </h1>
+      </div>
+
+      <!-- 4지선다 보기 리스트 -->
+      <div class="options-list" id="options-list" role="radiogroup" aria-label="보기 선택">
+        <!-- JS로 4개 보기 동적 생성 -->
+      </div>
+
+      <!-- 정답/오답 즉각 피드백 & 쏙쏙 해설 카드 -->
+      <section class="explanation-card" id="explanation-card" aria-live="polite">
+        <div class="explanation-title" id="explanation-title">
+          <span>💡</span>
+          <span>핵심 해설</span>
+        </div>
+        <p class="explanation-content" id="explanation-content">
+          해설 내용이 여기에 표시됩니다.
+        </p>
+      </section>
+
+      <!-- 다음 문제 액션 버튼 -->
+      <div class="card-actions" id="card-actions" style="display: none;">
+        <button type="button" class="next-btn" id="next-btn">
+          <span>다음 문제로</span>
+          <span>👉</span>
+        </button>
+      </div>
+
+      <!-- 교실용 키보드 단축키 힌트 -->
+      <div class="shortcut-hint">
+        💡 팁: 숫자키 [1~4]로 정답 선택, [스페이스/엔터]로 다음 문제로 이동할 수 있어요!
+      </div>
+    </main>
+
+    <!-- 4. 결과 및 총점 카드 (10문제 완료 시 노출) -->
+    <section class="result-container" id="result-container" role="region" aria-label="퀴즈 결과">
+      <div class="result-badge-icon" id="result-badge">👑</div>
+      <h2 class="result-title">조선 시대 문화 퀴즈 완료!</h2>
+      <p class="result-subtitle">오늘 배운 내용을 멋지게 확인했어요!</p>
+
+      <div class="score-box">
+        <div class="score-main" id="result-score-text">100점</div>
+        <div class="score-detail" id="result-correct-count">10문제 중 10문제를 맞혔어요!</div>
+      </div>
+
+      <!-- 칭찬 메시지 카드 -->
+      <div class="praise-box">
+        <div class="praise-title" id="praise-title">
+          <span>🎖️</span>
+          <span>조선의 최고 학자!</span>
+        </div>
+        <p class="praise-desc" id="praise-desc">
+          칭찬 피드백이 표시됩니다.
+        </p>
+      </div>
+
+      <!-- 오답 노트 아코디언 (틀린 문제가 있을 경우) -->
+      <div class="wrong-notes-section" id="wrong-notes-section" style="display: none;">
+        <button type="button" class="wrong-notes-toggle" id="wrong-notes-toggle">
+          <span>📝 내가 틀린 문제 다시 확인하기</span>
+          <span>▼ 펼치기</span>
+        </button>
+        <div class="wrong-notes-list" id="wrong-notes-list">
+          <!-- JS로 동적 생성 -->
+        </div>
+      </div>
+
+      <!-- 다시 풀기 액션 버튼 -->
+      <div class="result-actions">
+        <button type="button" class="restart-btn" id="restart-btn">
+          <span>🔄 다시 풀기</span>
+        </button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 스크립트 연결 -->
+  <script src="quiz-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
