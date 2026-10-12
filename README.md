@@ -3,6 +3,9 @@
 초등학교 5학년 2학기 사회과 교육과정 성취기준에 맞춘 **조선 시대 문화 퀴즈 웹앱**입니다.  
 교실 대형 TV(전자칠판) 및 학생들의 스마트폰/태블릿 어디에서든 크고 또렷하게 보이도록 설계되었습니다.
 
+- 🌐 **온라인 웹앱 바로 접속 (GitHub Pages):** [https://wbmaker2.github.io/class-quiz/](https://wbmaker2.github.io/class-quiz/)
+- 📦 **GitHub 리포지토리:** [https://github.com/WBmaker2/class-quiz](https://github.com/WBmaker2/class-quiz)
+
 ---
 
 ## 🌟 주요 기능 및 특징
